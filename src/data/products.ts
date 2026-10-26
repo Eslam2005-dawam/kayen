@@ -1,4 +1,5 @@
 /** Demonstration catalog — not verified KAYAN SKUs or live prices. */
+import { publicAsset } from './publicAsset'
 
 export type DemoProduct = {
   id: string
@@ -21,7 +22,7 @@ export const demoProducts: DemoProduct[] = [
     name: 'مرتبة كيان كلاسيك — عرض توضيحي',
     priceSar: 1299,
     compareAtSar: 1599,
-    image: '/images/categories/mattresses.webp',
+    image: publicAsset('/images/categories/mattresses.webp'),
     imageWidth: 960,
     imageHeight: 1440,
     href: '#',
@@ -31,7 +32,7 @@ export const demoProducts: DemoProduct[] = [
     id: 'demo-2',
     name: 'مرتبة كيان بلس — عرض توضيحي',
     priceSar: 1899,
-    image: '/images/categories/mattresses-mobile.webp',
+    image: publicAsset('/images/categories/mattresses-mobile.webp'),
     imageWidth: 640,
     imageHeight: 960,
     href: '#',
@@ -41,7 +42,7 @@ export const demoProducts: DemoProduct[] = [
     name: 'مخدة فندقية — عرض توضيحي',
     priceSar: 149,
     compareAtSar: 199,
-    image: '/images/categories/pillows.webp',
+    image: publicAsset('/images/categories/pillows.webp'),
     imageWidth: 960,
     imageHeight: 1440,
     href: '#',
@@ -51,7 +52,7 @@ export const demoProducts: DemoProduct[] = [
     id: 'demo-4',
     name: 'واقي مرتبة — عرض توضيحي',
     priceSar: 249,
-    image: '/images/categories/mattress-protectors.webp',
+    image: publicAsset('/images/categories/mattress-protectors.webp'),
     imageWidth: 960,
     imageHeight: 1440,
     href: '#',
@@ -60,7 +61,7 @@ export const demoProducts: DemoProduct[] = [
     id: 'demo-5',
     name: 'لبادة مريحة — عرض توضيحي',
     priceSar: 399,
-    image: '/images/categories/bedding-pads.webp',
+    image: publicAsset('/images/categories/bedding-pads.webp'),
     imageWidth: 960,
     imageHeight: 1440,
     href: '#',
@@ -70,7 +71,7 @@ export const demoProducts: DemoProduct[] = [
     name: 'لحاف خفيف — عرض توضيحي',
     priceSar: 549,
     compareAtSar: 649,
-    image: '/images/categories/duvets.webp',
+    image: publicAsset('/images/categories/duvets.webp'),
     imageWidth: 960,
     imageHeight: 1440,
     href: '#',

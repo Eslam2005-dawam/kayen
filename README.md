@@ -11,6 +11,14 @@ npm run dev
 
 Production build: `npm run build` → output in `dist/`.
 
+## GitHub Pages
+
+This repository deploys to `https://eslam2005-dawam.github.io/kayen/` through
+`.github/workflows/deploy.yml`. In the repository's **Settings → Pages**, set
+**Build and deployment → Source** to **GitHub Actions**. The workflow builds
+the Vite app and publishes `dist/` whenever `main` is updated. Publishing
+`main / (root)` directly does not build the React app.
+
 ## Project layout
 
 - **Source:** `src/` — components, data manifests, hooks  

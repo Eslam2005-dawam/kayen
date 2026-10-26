@@ -1,10 +1,11 @@
 import { Reveal } from '../ui/Reveal'
+import { publicAsset } from '../../data/publicAsset'
 
 export function BrandEditorialSection() {
   return (
     <section id="craft" className="relative isolate flex min-h-[34rem] items-end overflow-hidden text-white sm:min-h-[32rem] sm:items-center lg:min-h-[38rem]" aria-labelledby="craft-heading">
       <img
-        src="/images/kayan-factory-banner.webp"
+        src={publicAsset('/images/kayan-factory-banner.webp')}
         alt="مراحل صناعة المراتب والمفروشات داخل المصنع"
         width="1942"
         height="777"
