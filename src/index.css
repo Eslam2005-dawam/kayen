@@ -1,0 +1,227 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-burgundy: #4a101b;
+  --color-burgundy-deep: #3a0c15;
+  --color-ivory: #f8f5f0;
+  --color-beige: #e9ded0;
+  --color-charcoal: #2a2523;
+  --font-arabic: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply m-0 overflow-x-clip bg-ivory text-charcoal antialiased;
+    font-family: var(--font-arabic);
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-burgundy;
+  }
+}
+
+@layer utilities {
+  .scroll-reveal {
+    opacity: 1;
+  }
+
+  .scroll-reveal[data-visible='true'] {
+    animation: scroll-rise 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .scroll-reveal[data-direction='left'][data-visible='true'] {
+    animation-name: scroll-from-left;
+  }
+
+  .scroll-reveal[data-direction='right'][data-visible='true'] {
+    animation-name: scroll-from-right;
+  }
+
+  @keyframes scroll-rise {
+    from { opacity: .82; transform: translate3d(0, 18px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes scroll-from-left {
+    from { opacity: .82; transform: translate3d(-18px, 0, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes scroll-from-right {
+    from { opacity: .82; transform: translate3d(18px, 0, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-reveal,
+    .scroll-reveal[data-direction='left'],
+    .scroll-reveal[data-direction='right'] {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+  }
+
+  .glass-nav {
+    background: rgb(248 245 240 / 0.62);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-nav-scrolled {
+    background: rgb(248 245 240 / 0.78);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-nav,
+    .glass-nav-scrolled {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .edge-fade-inline {
+    mask-image: linear-gradient(
+      to left,
+      transparent,
+      black 12px,
+      black calc(100% - 12px),
+      transparent
+    );
+  }
+
+  .page-container {
+    @apply mx-auto w-full max-w-6xl px-4;
+  }
+
+  .campaign-banner-section {
+    @apply w-full max-w-none py-0;
+  }
+
+  .campaign-banner {
+    @apply block w-full max-w-none leading-none;
+  }
+
+  .campaign-banner__picture {
+    @apply block w-full max-w-none;
+  }
+
+  .campaign-banner__img {
+    @apply block h-auto w-full max-w-full;
+  }
+
+  .campaign-banner__img--cover {
+    @apply h-full w-full object-cover;
+  }
+
+  .hero-carousel {
+    @apply relative isolate w-full max-w-none overflow-hidden;
+  }
+
+  .hero-carousel__media {
+    @apply absolute inset-0 h-full w-full;
+  }
+
+  .hero-carousel__media .campaign-banner,
+  .hero-carousel__media .campaign-banner__picture {
+    height: 100%;
+  }
+
+  .hero-carousel__baked-link {
+    left: 16%;
+    top: 70%;
+    width: 20%;
+    height: 9%;
+    border-radius: 999px;
+  }
+
+  .hero-carousel__baked-link:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 3px;
+  }
+
+  .hero-carousel__campaign {
+    background: #dccab4;
+  }
+
+  .hero-carousel__campaign .campaign-banner__img--cover {
+    object-fit: cover;
+  }
+
+  .hero-carousel__campaign-link {
+    left: 15%;
+    top: 65%;
+    width: 16%;
+    height: 9%;
+  }
+
+  .hero-carousel__lifestyle-shade {
+    background: linear-gradient(to right, rgb(42 37 35 / 0.67), rgb(42 37 35 / 0.08) 68%, transparent);
+  }
+
+  @media (max-width: 767px) {
+    .hero-carousel {
+      min-height: 0;
+      aspect-ratio: 3 / 4;
+    }
+
+    .hero-carousel__media .campaign-banner__img--cover {
+      object-position: center;
+    }
+
+    .hero-carousel__lifestyle .campaign-banner__img--cover {
+      object-position: center;
+    }
+
+    .hero-carousel__lifestyle-shade {
+      background: linear-gradient(to bottom, rgb(248 245 240 / 0.52), rgb(248 245 240 / 0.05) 46%, transparent 64%);
+    }
+
+    .hero-carousel__lifestyle-copy {
+      padding-top: 1.25rem;
+      padding-bottom: 2rem;
+      justify-content: flex-start;
+    }
+
+    .hero-carousel__baked-link {
+      left: 32%;
+      top: 45%;
+      width: 38%;
+      height: 7%;
+    }
+
+    .hero-carousel__campaign-link {
+      left: 59%;
+      top: 28%;
+      width: 33%;
+      height: 6%;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero-carousel {
+      aspect-ratio: 2 / 1;
+    }
+  }
+}

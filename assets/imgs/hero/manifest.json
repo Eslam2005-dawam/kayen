@@ -1,0 +1,38 @@
+{
+  "brand": "KAYAN Mattress",
+  "concept": "Nature meets the complete sleep experience",
+  "font": "Dubai",
+  "copy": {
+    "eyebrow": "كيان للمراتب",
+    "headline": "كل تفاصيل راحتك في مكان واحد",
+    "support": "مراتب ومخدات ومفارش تكمل تجربة نومك",
+    "cta": "اكتشف منتجات كيان"
+  },
+  "files": [
+    {
+      "file": "kayan-desktop-campaign.webp",
+      "width": 1920,
+      "height": 800,
+      "bytes": 251580
+    },
+    {
+      "file": "kayan-desktop-background.webp",
+      "width": 1920,
+      "height": 800,
+      "bytes": 241874
+    },
+    {
+      "file": "kayan-mobile-campaign.webp",
+      "width": 900,
+      "height": 1200,
+      "bytes": 171404
+    },
+    {
+      "file": "kayan-mobile-background.webp",
+      "width": 900,
+      "height": 1200,
+      "bytes": 161258
+    }
+  ],
+  "provenance": "Photographs generated with built-in image_gen from the campaign brief. Arabic text composed deterministically using installed Dubai with Windows RTL shaping. Images are campaign visualizations, not verified photographs of a specific SKU."
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "file": "mattresses-640.webp",
+    "width": 640,
+    "height": 960,
+    "KB": 106.8
+  },
+  {
+    "file": "mattresses-960.webp",
+    "width": 960,
+    "height": 1440,
+    "KB": 240.6
+  },
+  {
+    "file": "pillows-640.webp",
+    "width": 640,
+    "height": 960,
+    "KB": 50.0
+  },
+  {
+    "file": "pillows-960.webp",
+    "width": 960,
+    "height": 1440,
+    "KB": 84.2
+  },
+  {
+    "file": "duvets-640.webp",
+    "width": 640,
+    "height": 960,
+    "KB": 42.6
+  },
+  {
+    "file": "duvets-960.webp",
+    "width": 960,
+    "height": 1440,
+    "KB": 73.2
+  },
+  {
+    "file": "mattress-protectors-640.webp",
+    "width": 640,
+    "height": 960,
+    "KB": 62.3
+  },
+  {
+    "file": "mattress-protectors-960.webp",
+    "width": 960,
+    "height": 1440,
+    "KB": 142.1
+  },
+  {
+    "file": "bedding-pads-640.webp",
+    "width": 640,
+    "height": 960,
+    "KB": 61.6
+  },
+  {
+    "file": "bedding-pads-960.webp",
+    "width": 960,
+    "height": 1440,
+    "KB": 153.9
+  }
+]
