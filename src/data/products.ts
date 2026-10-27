@@ -5,6 +5,7 @@ export type DemoProduct = {
   id: string
   name: string
   priceSar: number
+  defaultSize: string
   compareAtSar?: number
   image: string
   imageWidth: number
@@ -24,6 +25,7 @@ export const demoProducts: DemoProduct[] = featuredIds.flatMap((id) => {
     id: product.id,
     name: product.name,
     priceSar: product.price,
+    defaultSize: product.sizes[0],
     compareAtSar: product.previousPrice,
     image: product.image,
     imageWidth: 1122,

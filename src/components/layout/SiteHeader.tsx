@@ -6,7 +6,7 @@ import {
   User,
   X,
 } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { siteConfig } from '../../data/siteConfig'
 import { publicAsset } from '../../data/publicAsset'
 import { useDemoUi } from '../../context/DemoUiContext'
@@ -20,7 +20,12 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const { cartCount, wishlistCount, toggleWishlistDemo } = useDemoUi()
+  const { cartCount, wishlistCount } = useDemoUi()
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const menuPanelRef = useRef<HTMLDivElement>(null)
+  const wasMenuOpen = useRef(false)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -36,7 +41,57 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
     }
   }, [menuOpen])
 
+  useEffect(() => {
+    if (menuOpen) menuPanelRef.current?.querySelector<HTMLElement>('a, nav button')?.focus()
+    else if (wasMenuOpen.current) menuButtonRef.current?.focus()
+    wasMenuOpen.current = menuOpen
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (!searchOpen) return
+    searchInputRef.current?.focus()
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSearchOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [searchOpen])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        return
+      }
+      if (event.key !== 'Tab' || !menuPanelRef.current) return
+      const focusable = [...menuPanelRef.current.querySelectorAll<HTMLElement>('a, nav button')]
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen])
+
+  useEffect(() => {
+    const closeTransientUi = () => {
+      setMenuOpen(false)
+      setSearchOpen(false)
+    }
+    window.addEventListener('hashchange', closeTransientUi)
+    return () => window.removeEventListener('hashchange', closeTransientUi)
+  }, [])
+
   const closeMenu = useCallback(() => setMenuOpen(false), [])
+
+  const submitSearch = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const query = searchTerm.trim()
+    window.location.hash = query ? `#/store?q=${encodeURIComponent(query)}` : '#/store'
+    setSearchOpen(false)
+  }
 
   return (
     <>
@@ -51,6 +106,7 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
       >
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:gap-4 sm:py-3.5">
           <button
+            ref={menuButtonRef}
             type="button"
             className="flex h-11 w-11 items-center justify-center rounded-lg text-burgundy lg:hidden"
             aria-expanded={menuOpen}
@@ -97,24 +153,23 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
             <button
               type="button"
               className="flex h-11 w-11 items-center justify-center rounded-lg text-burgundy transition hover:bg-beige/50"
-              aria-label="بحث"
+              aria-label={searchOpen ? 'إغلاق البحث' : 'بحث في المنتجات'}
               aria-expanded={searchOpen}
-              onClick={() => setSearchOpen((o) => !o)}
+              onClick={() => { setSearchOpen((o) => !o); setMenuOpen(false) }}
             >
-              <Search className="h-5 w-5" />
+              {searchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
             <a
-              href="#account-demo"
+              href="#/account"
               className="hidden h-11 w-11 items-center justify-center rounded-lg text-burgundy transition hover:bg-beige/50 sm:flex"
-              aria-label="حسابي — تجريبي"
+              aria-label="حسابي"
             >
               <User className="h-5 w-5" />
             </a>
-            <button
-              type="button"
+            <a
+              href="#/wishlist"
               className="relative flex h-11 w-11 items-center justify-center rounded-lg text-burgundy transition hover:bg-beige/50"
-              aria-label="المفضلة — تجريبي"
-              onClick={toggleWishlistDemo}
+              aria-label={`المفضلة${wishlistCount > 0 ? `، ${wishlistCount} منتجات` : ''}`}
             >
               <Heart className="h-5 w-5" />
               {wishlistCount > 0 && (
@@ -122,14 +177,11 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
                   {wishlistCount}
                 </span>
               )}
-            </button>
-            <button
-              type="button"
+            </a>
+            <a
+              href="#/cart"
               className="relative flex h-11 w-11 items-center justify-center rounded-lg text-burgundy transition hover:bg-beige/50"
-              aria-label="السلة — تجريبي"
-              onClick={() => {
-                /* demo only */
-              }}
+              aria-label={`السلة${cartCount > 0 ? `، عدد المنتجات ${cartCount}` : ''}`}
             >
               <ShoppingBag className="h-5 w-5" />
               {cartCount > 0 && (
@@ -137,29 +189,33 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
                   {cartCount}
                 </span>
               )}
-            </button>
+            </a>
           </div>
         </div>
 
         {searchOpen && (
           <div className="border-t border-beige/70 bg-ivory/95 px-4 py-3">
-            <label className="mx-auto flex max-w-6xl items-center gap-2">
-              <span className="sr-only">بحث في المنتجات</span>
-              <Search className="h-4 w-4 shrink-0 text-charcoal/50" aria-hidden />
-              <input
-                type="search"
-                placeholder="ابحث عن مراتب، مخدات…"
-                className="w-full bg-transparent py-2 text-sm outline-none placeholder:text-charcoal/45"
-              />
-            </label>
+            <form onSubmit={submitSearch} className="mx-auto flex max-w-6xl items-center gap-2">
+              <label className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-beige bg-white px-3">
+                <span className="sr-only">بحث في المنتجات</span>
+                <Search className="h-4 w-4 shrink-0 text-charcoal/50" aria-hidden />
+                <input ref={searchInputRef} value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} type="search" placeholder="ابحث عن مراتب، مخدات…" className="w-full bg-transparent py-2.5 text-sm outline-none placeholder:text-charcoal/45" />
+              </label>
+              <button className="min-h-11 rounded-xl bg-burgundy px-5 text-sm font-semibold text-white" type="submit">بحث</button>
+            </form>
           </div>
         )}
       </header>
 
       <div
         id="mobile-nav"
-        className={`fixed inset-0 z-40 lg:hidden ${menuOpen ? '' : 'pointer-events-none'}`}
+        className={`fixed inset-0 z-[60] lg:hidden ${menuOpen ? '' : 'pointer-events-none'}`}
+        ref={menuPanelRef}
         aria-hidden={!menuOpen}
+        role="dialog"
+        aria-modal={menuOpen || undefined}
+        aria-label="قائمة الموقع"
+        inert={!menuOpen}
       >
         <button
           type="button"
@@ -200,6 +256,11 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
               </li>
             ))}
           </ul>
+          <div className="mx-4 mt-3 grid grid-cols-3 gap-2 border-t border-beige/70 pt-4">
+            <a href="#/account" onClick={closeMenu} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-beige/50 text-sm text-charcoal"><User className="h-4 w-4" /> حسابي</a>
+            <a href="#/wishlist" onClick={closeMenu} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-beige/50 text-sm text-charcoal"><Heart className="h-4 w-4" /> المفضلة</a>
+            <a href="#/cart" onClick={closeMenu} className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-beige/50 text-sm text-charcoal"><ShoppingBag className="h-4 w-4" /> السلة</a>
+          </div>
         </nav>
       </div>
     </>

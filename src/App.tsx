@@ -5,6 +5,10 @@ import { DemoToast } from './components/ui/DemoToast'
 import { HomePage } from './pages/HomePage'
 import { StorePage } from './pages/StorePage'
 import { ProductPage } from './pages/ProductPage'
+import { CartPage } from './pages/CartPage'
+import { CheckoutPage } from './pages/CheckoutPage'
+import { WishlistPage } from './pages/WishlistPage'
+import { AccountPage } from './pages/AccountPage'
 import { DemoUiProvider } from './context/DemoUiContext'
 import { useEffect, useState } from 'react'
 import { storeCategories, type StoreCategory } from './data/demoStoreProducts'
@@ -14,7 +18,7 @@ function currentRoute() {
   const categorySlug = /^#\/categories\/([^/?]+)/.exec(hash)?.[1]
   const productId = /^#\/products\/([^/?]+)/.exec(hash)?.[1]
   const categoryId = storeCategories.find((category) => category.id === categorySlug)?.id
-  return { isStore: hash.startsWith('#/store'), isCategoryRoute: Boolean(categorySlug), categoryId, productId }
+  return { isStore: hash.startsWith('#/store'), isCategoryRoute: Boolean(categorySlug), isCart: hash === '#/cart', isCheckout: hash === '#/checkout', isWishlist: hash === '#/wishlist', isAccount: hash === '#/account', categoryId, productId }
 }
 
 export default function App() {
@@ -33,7 +37,7 @@ export default function App() {
     }
   }, [route])
   const categoryId = route.categoryId as StoreCategory | undefined
-  const isCatalog = route.isStore || route.isCategoryRoute || Boolean(route.productId)
+  const isCatalog = route.isStore || route.isCategoryRoute || route.isCart || route.isCheckout || route.isWishlist || route.isAccount || Boolean(route.productId)
   return (
     <DemoUiProvider>
       <a
@@ -43,8 +47,8 @@ export default function App() {
         تخطي إلى المحتوى
       </a>
       <AnnouncementBar />
-      <SiteHeader heroOffset={!isCatalog} isStore={isCatalog} />
-      {route.productId ? <ProductPage key={route.productId} productId={route.productId} /> : route.isCategoryRoute && !categoryId ? (
+      <SiteHeader heroOffset={!isCatalog} isStore={route.isStore || route.isCategoryRoute || route.isCart || route.isCheckout || Boolean(route.productId)} />
+      {route.isCart ? <CartPage /> : route.isCheckout ? <CheckoutPage /> : route.isWishlist ? <WishlistPage /> : route.isAccount ? <AccountPage /> : route.productId ? <ProductPage key={route.productId} productId={route.productId} /> : route.isCategoryRoute && !categoryId ? (
         <main id="main-content" className="store-container store-empty"><h1>القسم غير متاح</h1><p>يمكنك تصفح الأقسام المتاحة من المتجر.</p><a href="#/store" className="text-burgundy underline">العودة إلى المتجر</a></main>
       ) : isCatalog ? <StorePage key={categoryId ?? 'store'} categoryId={categoryId} /> : <HomePage />}
       <SiteFooter />

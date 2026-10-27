@@ -10,7 +10,11 @@ type Props = {
 }
 
 export function Reveal({ children, className = '', delayMs = 0, direction = 'up' }: Props) {
-  const { ref, inView } = useInView<HTMLDivElement>()
+  const { ref, inView } = useInView<HTMLDivElement>({
+    rootMargin: '0px 0px -16% 0px',
+    threshold: 0.16,
+    once: true,
+  })
   const reduced = usePrefersReducedMotion()
 
   const visible = reduced || inView

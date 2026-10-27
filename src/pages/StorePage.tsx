@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { ChevronDown, Heart, Search, ShoppingBag, SlidersHorizontal, X } from 'lucide-react'
 import { useDemoUi } from '../context/DemoUiContext'
-import { demoStoreProducts, storeCategories, type StoreCategory, type StoreProduct } from '../data/demoStoreProducts'
+import { demoStoreProducts, priceForSize, storeCategories, type StoreCategory, type StoreProduct } from '../data/demoStoreProducts'
 import { publicAsset } from '../data/publicAsset'
 import { categories } from '../data/categories'
 import { siteConfig } from '../data/siteConfig'
@@ -73,7 +73,7 @@ function FiltersFields({ value, onChange, options }: { value: Filters; onChange:
 }
 
 function StoreProductCard({ product, index }: { product: StoreProduct; index: number }) {
-  const { addToCartDemo, favoriteIds, toggleFavoriteDemo } = useDemoUi()
+  const { addToCart, favoriteIds, toggleFavoriteDemo } = useDemoUi()
   const [size, setSize] = useState(product.sizes[0])
   const [imageFailed, setImageFailed] = useState(false)
   const favorite = favoriteIds.includes(product.id)
@@ -103,7 +103,7 @@ function StoreProductCard({ product, index }: { product: StoreProduct; index: nu
         <h2 className="store-card-title"><a href={`#/products/${product.id}`}>{product.name}</a></h2>
         <p className="store-card-description">{product.description}</p>
         <div className="store-card-prices">
-          <strong>{formatPrice(product.price)} <small>ر.س</small></strong>
+          <strong>{formatPrice(priceForSize(product, size))} <small>ر.س</small></strong>
           {product.previousPrice && <del>{formatPrice(product.previousPrice)} ر.س</del>}
         </div>
         <div className="store-card-actions">
@@ -114,7 +114,7 @@ function StoreProductCard({ product, index }: { product: StoreProduct; index: nu
             </select>
             <ChevronDown size={13} aria-hidden="true" />
           </label>
-          <button type="button" className="store-add-button" disabled={!product.inStock} onClick={() => addToCartDemo(`${product.name} — ${size}`)}>
+          <button type="button" className="store-add-button" disabled={!product.inStock} onClick={() => addToCart(product.id, size)}>
             <ShoppingBag size={15} aria-hidden="true" />
             <span>{product.inStock ? 'أضف للسلة' : 'غير متوفر'}</span>
           </button>
@@ -131,7 +131,7 @@ export function StorePage({ categoryId }: { categoryId?: StoreCategory }) {
     ? demoStoreProducts.filter((product) => product.category === categoryId)
     : demoStoreProducts, [categoryId])
   const filterOptions = useMemo(() => buildFilterOptions(categoryProducts, !categoryId), [categoryProducts, categoryId])
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(() => new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('q') ?? '')
   const [sort, setSort] = useState('relevant')
   const [filters, setFilters] = useState<Filters>(emptyFilters)
   const [draft, setDraft] = useState<Filters>(emptyFilters)
@@ -144,6 +144,16 @@ export function StorePage({ categoryId }: { categoryId?: StoreCategory }) {
     document.title = `${category ? category.label : 'المتجر'} | ${siteConfig.brandNameAr}`
     return () => { document.title = `${siteConfig.brandNameAr} | ${siteConfig.brandNameEn} — مراتب ومفروشات نوم` }
   }, [category])
+
+  useEffect(() => {
+    const syncSearchFromUrl = () => {
+      const hash = window.location.hash
+      if (!hash.startsWith('#/store') && !hash.startsWith('#/categories/')) return
+      updateSearch(new URLSearchParams(hash.split('?')[1] ?? '').get('q') ?? '')
+    }
+    window.addEventListener('hashchange', syncSearchFromUrl)
+    return () => window.removeEventListener('hashchange', syncSearchFromUrl)
+  }, [])
 
   useEffect(() => {
     if (!filterOpen) return

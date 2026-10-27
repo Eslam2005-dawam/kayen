@@ -10,7 +10,7 @@ function formatSar(value: number) {
 }
 
 export function BestSellersSection() {
-  const { addToCartDemo, openQuickViewDemo } = useDemoUi()
+  const { addToCart, openQuickViewDemo } = useDemoUi()
 
   return (
     <section
@@ -27,7 +27,7 @@ export function BestSellersSection() {
 
         <HorizontalScrollRow ariaLabel="منتجات الأكثر مبيعًا" className="mt-8">
             {demoProducts.map((product, index) => (
-              <Reveal key={product.id} delayMs={Math.min(index, 3) * 70} className="w-[min(64vw,16rem)] shrink-0 snap-start sm:w-[17rem]">
+              <Reveal key={product.id} delayMs={Math.min(index, 4) * 105} className="w-[min(64vw,16rem)] shrink-0 snap-start sm:w-[17rem]">
               <article
                 className="h-full"
               >
@@ -58,6 +58,7 @@ export function BestSellersSection() {
                       <span className="text-base font-semibold text-burgundy">
                         {formatSar(product.priceSar)}
                       </span>
+                      <small className="text-[11px] text-charcoal/55">سعر توضيحي</small>
                       {product.compareAtSar && (
                         <span className="text-xs text-charcoal/45 line-through">
                           {formatSar(product.compareAtSar)}
@@ -68,7 +69,7 @@ export function BestSellersSection() {
                       <button
                         type="button"
                         className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-burgundy px-3 text-xs font-medium text-white transition hover:bg-burgundy-deep"
-                        onClick={() => addToCartDemo(product.name)}
+                        onClick={() => addToCart(product.id, product.defaultSize)}
                       >
                         <ShoppingBag className="h-3.5 w-3.5" aria-hidden />
                         أضف للسلة
@@ -88,7 +89,7 @@ export function BestSellersSection() {
               </Reveal>
             ))}
         </HorizontalScrollRow>
-        <Reveal className="mt-8 text-center" delayMs={120}>
+        <Reveal className="mt-8 text-center" delayMs={180}>
           <a href="#/store" className="inline-flex min-h-11 items-center justify-center rounded-full border border-burgundy px-6 text-sm font-medium text-burgundy transition hover:bg-burgundy hover:text-white">
            عرض المزيد
           </a>

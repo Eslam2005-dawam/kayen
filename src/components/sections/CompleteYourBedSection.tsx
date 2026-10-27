@@ -15,7 +15,7 @@ export function CompleteYourBedSection() {
       <div className="mx-auto max-w-6xl px-4">
         <Reveal className="mb-7 flex flex-wrap items-end justify-between gap-3 sm:mb-9">
           <div>
-            <p className="mb-1 text-sm font-medium text-gold-deep">من المرتبة إلى آخر تفصيلة</p>
+            {/* <p className="mb-1 text-sm font-medium text-gold-deep">من المرتبة إلى آخر تفصيلة</p> */}
             <h2 id="essentials-heading" className="text-3xl font-semibold text-charcoal sm:text-4xl">
               أكمل راحة سريرك
             </h2>
@@ -27,7 +27,7 @@ export function CompleteYourBedSection() {
 
         <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
           {essentials.map(({ category, note }, index) => (
-            <Reveal key={category.id} delayMs={index * 70} className={index === 2 ? 'col-span-2 lg:col-span-1' : ''}>
+            <Reveal key={category.id} delayMs={index * 115} className={index === 2 ? 'col-span-2 lg:col-span-1' : ''}>
               <a href={category.href} className="group block h-full overflow-hidden rounded-xl border border-beige/80 bg-ivory transition-shadow duration-300 hover:shadow-lg">
                 <div className={`overflow-hidden bg-beige/30 ${index === 2 ? 'aspect-[2/1] lg:aspect-[4/3]' : 'aspect-[4/5] sm:aspect-[4/3]'}`}>
                   <ResponsivePicture

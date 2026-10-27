@@ -1,4 +1,4 @@
-/** Local product images. Additional views can be placed in products/<section>/<product-id>/. */
+/** Local product images. Additional views can be placed in the matching product folder. */
 const localImages = import.meta.glob('../../products/**/*.{webp,png,jpg,jpeg,avif}', {
   eager: true,
   query: '?url',
@@ -23,7 +23,11 @@ const primaryFiles: Record<string, string> = {
 }
 
 function findImage(suffix: string) {
-  return Object.entries(localImages).find(([path]) => path.replaceAll('\\', '/').endsWith(suffix))?.[1]
+  const normalizedSuffix = suffix.replaceAll('\\', '/')
+  const exactPathMatch = Object.entries(localImages).find(([path]) => path.replaceAll('\\', '/').endsWith(normalizedSuffix))?.[1]
+  if (exactPathMatch) return exactPathMatch
+  const filename = normalizedSuffix.slice(normalizedSuffix.lastIndexOf('/') + 1)
+  return Object.entries(localImages).find(([path]) => path.replaceAll('\\', '/').endsWith(`/${filename}`))?.[1]
 }
 
 export function productPrimaryImage(id: string, fallback: string) {
@@ -31,8 +35,18 @@ export function productPrimaryImage(id: string, fallback: string) {
 }
 
 export function productGalleryImages(id: string, primary: string) {
+  const primaryPath = Object.entries(localImages).find(([, url]) => url === primary)?.[0]?.replaceAll('\\', '/')
+  const productFolder = primaryPath?.slice(0, primaryPath.lastIndexOf('/'))
+  const productsRootIndex = primaryPath?.lastIndexOf('/products/') ?? -1
+  const pathBelowProducts = productsRootIndex >= 0 ? primaryPath?.slice(productsRootIndex + '/products/'.length) : undefined
+  // Category-level images sit directly under /products/<category>; model galleries
+  // live one level deeper under /products/<category>/<product>/<image>.
+  const hasProductFolder = Boolean(pathBelowProducts && pathBelowProducts.split('/').length >= 3)
   const additional = Object.entries(localImages)
-    .filter(([path]) => path.replaceAll('\\', '/').includes(`/${id}/`))
+    .filter(([path]) => {
+      const normalizedPath = path.replaceAll('\\', '/')
+      return normalizedPath.includes(`/${id}/`) || (hasProductFolder && Boolean(productFolder) && normalizedPath.startsWith(`${productFolder}/`) && normalizedPath !== primaryPath)
+    })
     .sort(([a], [b]) => a.localeCompare(b, 'ar', { numeric: true }))
     .map(([, url]) => url)
   return [...new Set([primary, ...additional])]

@@ -66,7 +66,7 @@ export function CategorySection() {
         {/* Desktop: five in a row */}
         <div className="hidden gap-3 lg:grid lg:grid-cols-5 lg:gap-4">
           {categories.map((cat, i) => (
-            <CategoryCard key={cat.id} {...cat} delayMs={i * 70} />
+            <CategoryCard key={cat.id} {...cat} delayMs={i * 125} />
           ))}
         </div>
 
@@ -78,7 +78,7 @@ export function CategorySection() {
                 key={cat.id}
                 className="w-[min(42vw,14rem)] shrink-0 snap-start sm:w-[min(36vw,15rem)]"
               >
-                <CategoryCard {...cat} delayMs={i * 60} />
+                <CategoryCard {...cat} delayMs={i * 105} />
               </div>
             ))}
           </div>
@@ -92,7 +92,7 @@ export function CategorySection() {
                 key={cat.id}
                 className="w-[52vw] max-w-[13rem] shrink-0 snap-start"
               >
-                <CategoryCard {...cat} delayMs={i * 50} />
+                <CategoryCard {...cat} delayMs={i * 90} />
               </div>
             ))}
           </div>

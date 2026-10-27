@@ -4,9 +4,9 @@ export const siteConfig = {
   announcement:
     'اكتشف تجربة نوم هادئة — تشكيلة كيان للمراتب والمفروشات',
   contact: {
-    phone: '[رقم الهاتف]',
-    email: '[البريد الإلكتروني]',
-    whatsapp: '',
+    phone: '+966 57 580 0900',
+    email: 'info@kayanmattress.com',
+    whatsapp: '966575800900',
   },
   social: {
     instagram: '',
@@ -16,8 +16,8 @@ export const siteConfig = {
     { label: 'الرئيسية', href: '#' },
     { label: 'الأقسام', href: '#categories' },
     { label: 'الأكثر مبيعًا', href: '#best-sellers' },
-    { label: 'صناعة كيان', href: '#craft' },
-    { label: 'الأسئلة الشائعة', href: '#faq' },
+    // { label: 'صناعة كيان', href: '#craft' },
+    // { label: 'الأسئلة الشائعة', href: '#faq' },
   ],
   benefits: [
     {

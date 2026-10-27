@@ -8,6 +8,7 @@ const companyLinks = [
   { label: 'المتجر', href: '#/store' },
   { label: 'صناعة كيان', href: '#craft' },
   { label: 'الأسئلة الشائعة', href: '#faq' },
+  { label: 'تواصل عبر واتساب', href: `https://wa.me/${siteConfig.contact.whatsapp}` },
 ]
 
 export function SiteFooter() {
@@ -28,7 +29,7 @@ export function SiteFooter() {
           <ul className="mt-3 space-y-2 text-sm">
             {productLinks.map((l) => (
               <li key={l.label}>
-                <a href={publicAsset(`/${l.href}`)} className="transition hover:text-gold-light">
+                <a href={l.href.startsWith('https://') ? l.href : publicAsset(`/${l.href}`)} target={l.href.startsWith('https://') ? '_blank' : undefined} rel={l.href.startsWith('https://') ? 'noopener noreferrer' : undefined} className="transition hover:text-gold-light">
                   {l.label}
                 </a>
               </li>
