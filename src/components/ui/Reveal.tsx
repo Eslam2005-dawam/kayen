@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode
   className?: string
   delayMs?: number
-  direction?: 'up' | 'left' | 'right'
+  direction?: 'up' | 'left' | 'right' | 'fade'
 }
 
 export function Reveal({ children, className = '', delayMs = 0, direction = 'up' }: Props) {

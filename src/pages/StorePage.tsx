@@ -207,13 +207,13 @@ export function StorePage({ categoryId }: { categoryId?: StoreCategory }) {
       <div className={`store-intro ${category ? 'store-category-intro' : ''}`} style={{ '--store-intro-image': `url("${categoryImage?.imageDesktop ?? publicAsset('/images/store/mattress-cotton.webp')}")` } as CSSProperties}>
         <div className="store-container">
           <nav aria-label="مسار الصفحة" className="store-breadcrumb"><a href={publicAsset('/')}>الرئيسية</a><span aria-hidden="true">‹</span>{category ? <><a href={publicAsset('/#/store')}>المتجر</a><span aria-hidden="true">‹</span><span aria-current="page">{category.label}</span></> : <span aria-current="page">المتجر</span>}</nav>
-          <div className="store-intro-copy"><p className="store-eyebrow">{category ? 'تسوق حسب القسم' : 'تشكيلة كيان'}</p><h1>{category ? category.label : 'اكتشف مجموعتنا'}</h1><p>{category ? `تصفح منتجات ${category.label} واختر ما يناسبك من التشكيلة.` : 'اختر من المراتب ومستلزمات النوم ما يناسب غرفتك.'}</p></div>
+          <div className="store-intro-copy"><h1>{category ? category.label : 'اكتشف مجموعتنا'}</h1><p>{category ? `تصفح منتجات ${category.label} واختر ما يناسبك من التشكيلة.` : 'اختر من المراتب ومستلزمات النوم ما يناسب غرفتك.'}</p></div>
         </div>
       </div>
 
       <div className="store-container store-main">
         {category && <nav className="store-category-switcher" aria-label="تصفح الأقسام">{categories.map((item) => <a key={item.id} href={item.href} aria-current={item.id === categoryId ? 'page' : undefined} className={item.id === categoryId ? 'is-current' : ''}>{item.name}</a>)}</nav>}
-        <p className="store-demo-notice">منتجات وصور وأسعار وتوفر للعرض التوضيحي فقط؛ تُحدَّث عند اعتماد الكتالوج الرسمي.</p>
+        {/* <p className="store-demo-notice">منتجات وصور وأسعار وتوفر للعرض التوضيحي فقط؛ تُحدَّث عند اعتماد الكتالوج الرسمي.</p> */}
         <div className="store-toolbar">
           <label className="store-search"><Search size={19} aria-hidden="true" /><span className="sr-only">ابحث في المنتجات</span><input type="search" placeholder="ابحث عن منتج..." value={search} onChange={(event) => updateSearch(event.target.value)} /></label>
           <div className="store-toolbar-end"><span className="store-result-count" aria-live="polite">عرض {filtered.length} من المنتجات</span><label className="store-sort"><span className="sr-only">ترتيب المنتجات</span><select aria-label="ترتيب المنتجات" value={sort} onChange={(event) => setSort(event.target.value)}><option value="relevant">الأكثر صلة</option><option value="price-asc">السعر: من الأقل للأعلى</option><option value="price-desc">السعر: من الأعلى للأقل</option><option value="newest">الأحدث</option></select><ChevronDown size={15} aria-hidden="true" /></label><button ref={filterButtonRef} type="button" className="store-mobile-filter-button" onClick={() => { setDraft(filters); setFilterOpen(true) }}><SlidersHorizontal size={17} /> الفلاتر{activeFilters.length > 0 && <span>{activeFilters.length}</span>}</button></div>

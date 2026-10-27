@@ -15,7 +15,7 @@ export const siteConfig = {
   navLinks: [
     { label: 'الرئيسية', href: '#' },
     { label: 'الأقسام', href: '#categories' },
-    { label: 'الأكثر مبيعًا', href: '#best-sellers' },
+    // { label: 'الأكثر مبيعًا', href: '#best-sellers' },
     // { label: 'صناعة كيان', href: '#craft' },
     // { label: 'الأسئلة الشائعة', href: '#faq' },
   ],

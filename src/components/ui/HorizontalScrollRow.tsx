@@ -67,7 +67,7 @@ export function HorizontalScrollRow({
         aria-label={ariaLabel}
         tabIndex={0}
         onKeyDown={onKeyDown}
-        className={`scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-2 pt-1 ${
+        className={`horizontal-touch-rail scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain pb-2 pt-1 ${
           edgeFade ? 'edge-fade-inline md:edge-fade-inline' : ''
         }`}
       >

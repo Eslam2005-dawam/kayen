@@ -136,7 +136,7 @@ export function HeroCarousel() {
 
       {!activeSlide.textInImage && <div className="hero-carousel__lifestyle-copy absolute inset-0 z-10 mx-auto flex w-full max-w-6xl flex-col justify-end px-6 pb-11 pt-24 sm:pb-10 sm:pt-28 md:justify-center md:pb-14 md:pt-32 lg:pb-16 lg:pt-36">
         <div className="max-w-xl md:ml-0 md:mr-auto md:max-w-lg md:text-left lg:max-w-xl">
-          <span className="mb-4 block h-0.5 w-12 bg-gold-deep md:bg-gold-light" aria-hidden />
+          {/* <span className="mb-4 block h-0.5 w-12 bg-gold-deep md:bg-gold-light" aria-hidden /> */}
           <h1 className="text-balance text-2xl font-semibold leading-tight text-burgundy md:text-white sm:text-3xl md:text-4xl lg:text-5xl">
             {activeSlide.headline}
           </h1>

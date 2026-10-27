@@ -12,9 +12,10 @@ function CategoryCard({
   height,
   alt,
   delayMs,
-}: (typeof categories)[number] & { delayMs: number }) {
+  direction = 'up',
+}: (typeof categories)[number] & { delayMs: number; direction?: 'up' | 'fade' }) {
   return (
-    <Reveal delayMs={delayMs} className="h-full">
+    <Reveal delayMs={delayMs} direction={direction} className="h-full">
       <a
         href={href}
         className="group flex h-full snap-start flex-col overflow-hidden rounded-2xl border border-beige/90 bg-white shadow-[0_8px_30px_rgb(42_37_35_/0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgb(42_37_35_/0.08)] motion-reduce:transition-none"
@@ -72,13 +73,13 @@ export function CategorySection() {
 
         {/* Tablet: 3 + scroll hint — use horizontal on md too for 5 items */}
         <div className="hidden md:block lg:hidden">
-          <div className="scrollbar-hide edge-fade-inline flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+          <div className="horizontal-touch-rail scrollbar-hide edge-fade-inline flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden pb-2">
             {categories.map((cat, i) => (
               <div
                 key={cat.id}
                 className="w-[min(42vw,14rem)] shrink-0 snap-start sm:w-[min(36vw,15rem)]"
               >
-                <CategoryCard {...cat} delayMs={i * 105} />
+                <CategoryCard {...cat} delayMs={i * 105} direction="fade" />
               </div>
             ))}
           </div>
@@ -86,13 +87,13 @@ export function CategorySection() {
 
         {/* Mobile carousel with peek */}
         <div className="md:hidden">
-          <div className="scrollbar-hide edge-fade-inline flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 ps-0 pe-4">
+          <div className="horizontal-touch-rail scrollbar-hide edge-fade-inline flex snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden pb-2 ps-0 pe-4">
             {categories.map((cat, i) => (
               <div
                 key={cat.id}
                 className="w-[52vw] max-w-[13rem] shrink-0 snap-start"
               >
-                <CategoryCard {...cat} delayMs={i * 90} />
+                <CategoryCard {...cat} delayMs={i * 90} direction="fade" />
               </div>
             ))}
           </div>

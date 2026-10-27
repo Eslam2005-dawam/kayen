@@ -1,6 +1,8 @@
-import { Eye, ShoppingBag } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowLeft, Eye, ShoppingBag, X } from 'lucide-react'
 import { useDemoUi } from '../../context/DemoUiContext'
 import { demoProducts } from '../../data/products'
+import { demoStoreProducts, priceForSize } from '../../data/demoStoreProducts'
 import { HorizontalScrollRow } from '../ui/HorizontalScrollRow'
 import { Reveal } from '../ui/Reveal'
 import { ResponsivePicture } from '../ui/ResponsivePicture'
@@ -10,7 +12,40 @@ function formatSar(value: number) {
 }
 
 export function BestSellersSection() {
-  const { addToCart, openQuickViewDemo } = useDemoUi()
+  const { addToCart } = useDemoUi()
+  const [quickViewId, setQuickViewId] = useState<string | null>(null)
+  const [quickViewSize, setQuickViewSize] = useState('')
+  const closeQuickViewRef = useRef<HTMLButtonElement>(null)
+  const quickView = demoStoreProducts.find((product) => product.id === quickViewId)
+
+  useEffect(() => {
+    if (!quickView) return
+    const previousFocus = document.activeElement as HTMLElement | null
+    closeQuickViewRef.current?.focus()
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setQuickViewId(null)
+      if (event.key !== 'Tab') return
+      const dialog = closeQuickViewRef.current?.closest<HTMLElement>('[role="dialog"]')
+      if (!dialog) return
+      const focusable = [...dialog.querySelectorAll<HTMLElement>('button, a, select')].filter((element) => !element.hasAttribute('disabled'))
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus() }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus() }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKeyDown)
+      previousFocus?.focus()
+    }
+  }, [quickView])
+
+  useEffect(() => {
+    if (quickView) setQuickViewSize(quickView.sizes[0])
+  }, [quickView])
 
   return (
     <section
@@ -27,7 +62,7 @@ export function BestSellersSection() {
 
         <HorizontalScrollRow ariaLabel="منتجات الأكثر مبيعًا" className="mt-8">
             {demoProducts.map((product, index) => (
-              <Reveal key={product.id} delayMs={Math.min(index, 4) * 105} className="w-[min(64vw,16rem)] shrink-0 snap-start sm:w-[17rem]">
+              <Reveal key={product.id} delayMs={Math.min(index, 4) * 105} direction="fade" className="w-[min(64vw,16rem)] shrink-0 snap-start sm:w-[17rem]">
               <article
                 className="h-full"
               >
@@ -58,7 +93,7 @@ export function BestSellersSection() {
                       <span className="text-base font-semibold text-burgundy">
                         {formatSar(product.priceSar)}
                       </span>
-                      <small className="text-[11px] text-charcoal/55">سعر توضيحي</small>
+                      {/* <small className="text-[11px] text-charcoal/55">سعر توضيحي</small> */}
                       {product.compareAtSar && (
                         <span className="text-xs text-charcoal/45 line-through">
                           {formatSar(product.compareAtSar)}
@@ -78,7 +113,7 @@ export function BestSellersSection() {
                         type="button"
                         className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-beige text-burgundy transition hover:bg-beige/40"
                         aria-label={`معاينة ${product.name}`}
-                        onClick={() => openQuickViewDemo(product.name)}
+                        onClick={() => setQuickViewId(product.id)}
                       >
                         <Eye className="h-4 w-4" />
                       </button>
@@ -95,6 +130,18 @@ export function BestSellersSection() {
           </a>
         </Reveal>
       </div>
+      {quickView && <div className="quick-view-overlay" role="dialog" aria-modal="true" aria-labelledby="quick-view-title">
+        <button type="button" className="quick-view-backdrop" aria-label="إغلاق المعاينة" onClick={() => setQuickViewId(null)} />
+        <section className="quick-view-dialog">
+          <button ref={closeQuickViewRef} type="button" className="quick-view-close" aria-label="إغلاق المعاينة" onClick={() => setQuickViewId(null)}><X size={21} /></button>
+          <div className="quick-view-image"><img src={quickView.image} alt={quickView.name} width="720" height="560" /></div>
+          <div className="quick-view-copy"><p className="quick-view-eyebrow">معاينة سريعة</p><h2 id="quick-view-title">{quickView.name}</h2><p>{quickView.description}</p>
+            <div className="quick-view-price"><strong><span>{new Intl.NumberFormat('ar-SA').format(priceForSize(quickView, quickViewSize))}</span> <small>ر.س</small></strong><span>سعر توضيحي</span></div>
+            {quickView.sizes.length > 1 ? <label className="quick-view-size">المقاس<select dir="ltr" value={quickViewSize} onChange={(event) => setQuickViewSize(event.target.value)}>{quickView.sizes.map((size) => <option key={size} value={size}>{size}</option>)}</select></label> : <p className="quick-view-size-label">المقاس المعروض: <b dir="ltr">{quickViewSize}</b></p>}
+            <div className="quick-view-actions"><button type="button" className="quick-view-add" onClick={() => { addToCart(quickView.id, quickViewSize); setQuickViewId(null) }}><ShoppingBag size={17} /> أضف للسلة</button><a href={`#/products/${quickView.id}`} onClick={() => setQuickViewId(null)}>تفاصيل المنتج <ArrowLeft size={16} /></a></div>
+          </div>
+        </section>
+      </div>}
     </section>
   )
 }

@@ -18,6 +18,9 @@ export function SiteFooter() {
     <footer className="border-t-2 border-gold/75 bg-burgundy-deep text-ivory/90">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-3">
         <div>
+          <a href={publicAsset('/')} className="mb-4 inline-flex rounded-full border border-gold/60 bg-white p-1 shadow-sm" aria-label={`${siteConfig.brandNameAr} — الرئيسية`}>
+            <img src={publicAsset('/images/brand/logo.webp')} alt="شعار كيان" width="88" height="88" className="h-[5.5rem] w-[5.5rem] rounded-full object-contain" loading="lazy" />
+          </a>
           <p className="text-lg font-semibold text-gold-light">{siteConfig.brandNameEn}</p>
           <p className="text-sm text-ivory/70">{siteConfig.brandNameAr}</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-ivory/65">
@@ -41,7 +44,7 @@ export function SiteFooter() {
           <ul className="mt-3 space-y-2 text-sm">
             {companyLinks.map((l) => (
               <li key={l.label}>
-                <a href={publicAsset(`/${l.href}`)} className="transition hover:text-gold-light">
+                <a href={l.href.startsWith('https://') ? l.href : publicAsset(`/${l.href}`)} target={l.href.startsWith('https://') ? '_blank' : undefined} rel={l.href.startsWith('https://') ? 'noopener noreferrer' : undefined} className="transition hover:text-gold-light">
                   {l.label}
                 </a>
               </li>
@@ -50,7 +53,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-white/10 py-4 text-center text-xs text-ivory/55">
-        © {year} {siteConfig.brandNameAr}. جميع الحقوق محفوظة.
+        powerd by I&S Solutions
       </div>
     </footer>
   )
