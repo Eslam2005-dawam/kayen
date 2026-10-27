@@ -15,7 +15,7 @@ export const categories: CategoryItem[] = [
   {
     id: 'mattresses',
     name: 'المراتب',
-    href: '#',
+    href: '#/categories/mattresses',
     imageDesktop: imageManifest.categories.mattresses.desktop,
     imageMobile: imageManifest.categories.mattresses.mobile,
     width: imageManifest.categories.mattresses.width,
@@ -25,7 +25,7 @@ export const categories: CategoryItem[] = [
   {
     id: 'pillows',
     name: 'المخدات',
-    href: '#',
+    href: '#/categories/pillows',
     imageDesktop: imageManifest.categories.pillows.desktop,
     imageMobile: imageManifest.categories.pillows.mobile,
     width: imageManifest.categories.pillows.width,
@@ -35,7 +35,7 @@ export const categories: CategoryItem[] = [
   {
     id: 'protectors',
     name: 'واقيات المراتب',
-    href: '#',
+    href: '#/categories/protectors',
     imageDesktop: imageManifest.categories.protectors.desktop,
     imageMobile: imageManifest.categories.protectors.mobile,
     width: imageManifest.categories.protectors.width,
@@ -45,7 +45,7 @@ export const categories: CategoryItem[] = [
   {
     id: 'pads',
     name: 'اللبادات',
-    href: '#',
+    href: '#/categories/pads',
     imageDesktop: imageManifest.categories.pads.desktop,
     imageMobile: imageManifest.categories.pads.mobile,
     width: imageManifest.categories.pads.width,
@@ -55,7 +55,7 @@ export const categories: CategoryItem[] = [
   {
     id: 'duvets',
     name: 'اللحف',
-    href: '#',
+    href: '#/categories/duvets',
     imageDesktop: imageManifest.categories.duvets.desktop,
     imageMobile: imageManifest.categories.duvets.mobile,
     width: imageManifest.categories.duvets.width,

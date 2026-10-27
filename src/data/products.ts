@@ -1,5 +1,5 @@
-/** Demonstration catalog — not verified KAYAN SKUs or live prices. */
-import { publicAsset } from './publicAsset'
+/** Homepage teaser cards share the same illustrative catalog as the store. */
+import { demoStoreProducts } from './demoStoreProducts'
 
 export type DemoProduct = {
   id: string
@@ -14,67 +14,21 @@ export type DemoProduct = {
 }
 
 export const productsDemoNotice =
-  'منتجات وأسعار للعرض التوضيحي فقط — ليست قائمة أسعار أو منتجات رسمية.'
+  'المنتجات والأسعار المعروضة للتوضيح فقط حتى اعتماد كتالوج كيان الرسمي.'
 
-export const demoProducts: DemoProduct[] = [
-  {
-    id: 'demo-1',
-    name: 'مرتبة كيان كلاسيك — عرض توضيحي',
-    priceSar: 1299,
-    compareAtSar: 1599,
-    image: publicAsset('/images/categories/mattresses.webp'),
-    imageWidth: 960,
-    imageHeight: 1440,
-    href: '#',
-    badge: 'sale',
-  },
-  {
-    id: 'demo-2',
-    name: 'مرتبة كيان بلس — عرض توضيحي',
-    priceSar: 1899,
-    image: publicAsset('/images/categories/mattresses-mobile.webp'),
-    imageWidth: 640,
-    imageHeight: 960,
-    href: '#',
-  },
-  {
-    id: 'demo-3',
-    name: 'مخدة فندقية — عرض توضيحي',
-    priceSar: 149,
-    compareAtSar: 199,
-    image: publicAsset('/images/categories/pillows.webp'),
-    imageWidth: 960,
-    imageHeight: 1440,
-    href: '#',
-    badge: 'sale',
-  },
-  {
-    id: 'demo-4',
-    name: 'واقي مرتبة — عرض توضيحي',
-    priceSar: 249,
-    image: publicAsset('/images/categories/mattress-protectors.webp'),
-    imageWidth: 960,
-    imageHeight: 1440,
-    href: '#',
-  },
-  {
-    id: 'demo-5',
-    name: 'لبادة مريحة — عرض توضيحي',
-    priceSar: 399,
-    image: publicAsset('/images/categories/bedding-pads.webp'),
-    imageWidth: 960,
-    imageHeight: 1440,
-    href: '#',
-  },
-  {
-    id: 'demo-6',
-    name: 'لحاف خفيف — عرض توضيحي',
-    priceSar: 549,
-    compareAtSar: 649,
-    image: publicAsset('/images/categories/duvets.webp'),
-    imageWidth: 960,
-    imageHeight: 1440,
-    href: '#',
-    badge: 'sale',
-  },
-]
+const featuredIds = ['m-01', 'm-02', 'p-01', 'pr-01', 'pa-01', 'd-01']
+
+export const demoProducts: DemoProduct[] = featuredIds.flatMap((id) => {
+  const product = demoStoreProducts.find((item) => item.id === id)
+  return product ? [{
+    id: product.id,
+    name: product.name,
+    priceSar: product.price,
+    compareAtSar: product.previousPrice,
+    image: product.image,
+    imageWidth: 1122,
+    imageHeight: 1408,
+    href: `#/products/${product.id}`,
+    badge: product.previousPrice ? 'sale' as const : undefined,
+  }] : []
+})

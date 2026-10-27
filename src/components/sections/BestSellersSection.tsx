@@ -20,7 +20,7 @@ export function BestSellersSection() {
     >
       <div className="mx-auto max-w-6xl px-4">
         <Reveal>
-          <h2 id="best-sellers-heading" className="text-center text-3xl font-semibold text-charcoal sm:text-4xl">
+          <h2 id="best-sellers-heading" className="brand-section-heading text-center text-3xl font-semibold text-charcoal sm:text-4xl">
             الأكثر مبيعًا
           </h2>
         </Reveal>
@@ -89,8 +89,8 @@ export function BestSellersSection() {
             ))}
         </HorizontalScrollRow>
         <Reveal className="mt-8 text-center" delayMs={120}>
-          <a href="#categories" className="inline-flex min-h-11 items-center justify-center rounded-full border border-burgundy px-6 text-sm font-medium text-burgundy transition hover:bg-burgundy hover:text-white">
-            تسوق حسب القسم
+          <a href="#/store" className="inline-flex min-h-11 items-center justify-center rounded-full border border-burgundy px-6 text-sm font-medium text-burgundy transition hover:bg-burgundy hover:text-white">
+           عرض المزيد
           </a>
         </Reveal>
       </div>

@@ -35,7 +35,7 @@ function CategoryCard({
         <div className="flex items-center justify-between gap-2 px-4 py-3.5">
           <h3 className="text-base font-medium text-charcoal sm:text-lg">{name}</h3>
           <span
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-beige bg-ivory text-burgundy transition group-hover:translate-x-[-2px] motion-reduce:transition-none"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/45 bg-gold-wash/70 text-gold-deep transition group-hover:translate-x-[-2px] motion-reduce:transition-none"
             aria-hidden
           >
             <ArrowLeft className="h-4 w-4" />
@@ -57,7 +57,7 @@ export function CategorySection() {
         <Reveal>
           <h2
             id="categories-heading"
-            className="mb-7 text-center text-3xl font-semibold text-charcoal sm:mb-9 sm:text-4xl"
+            className="brand-section-heading mb-7 text-center text-3xl font-semibold text-charcoal sm:mb-9 sm:text-4xl"
           >
             اختيارات تُكمل راحتك
           </h2>

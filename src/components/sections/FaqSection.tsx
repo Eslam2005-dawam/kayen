@@ -7,7 +7,7 @@ export function FaqSection() {
     <section id="faq" className="py-14 sm:py-16" aria-labelledby="faq-heading">
       <div className="mx-auto max-w-3xl px-4">
         <Reveal>
-          <h2 id="faq-heading" className="text-center text-2xl font-semibold text-charcoal sm:text-3xl">
+          <h2 id="faq-heading" className="brand-section-heading text-center text-2xl font-semibold text-charcoal sm:text-3xl">
             الأسئلة الشائعة
           </h2>
         </Reveal>

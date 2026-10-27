@@ -10,8 +10,10 @@ import {
 type DemoUiContextValue = {
   cartCount: number
   wishlistCount: number
-  addToCartDemo: (productName: string) => void
+  favoriteIds: string[]
+  addToCartDemo: (productName: string, quantity?: number) => void
   toggleWishlistDemo: () => void
+  toggleFavoriteDemo: (productId: string) => void
   quickViewMessage: string | null
   openQuickViewDemo: (productName: string) => void
   clearQuickView: () => void
@@ -21,17 +23,25 @@ const DemoUiContext = createContext<DemoUiContextValue | null>(null)
 
 export function DemoUiProvider({ children }: { children: ReactNode }) {
   const [cartCount, setCartCount] = useState(0)
-  const [wishlistCount, setWishlistCount] = useState(0)
+  const [homeFavorite, setHomeFavorite] = useState(false)
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([])
+  const wishlistCount = favoriteIds.length + Number(homeFavorite)
   const [quickViewMessage, setQuickViewMessage] = useState<string | null>(null)
 
-  const addToCartDemo = useCallback((productName: string) => {
-    setCartCount((c) => c + 1)
-    setQuickViewMessage(`[تجريبي] تمت إضافة «${productName}» إلى السلة`)
+  const addToCartDemo = useCallback((productName: string, quantity = 1) => {
+    setCartCount((c) => c + quantity)
+    setQuickViewMessage(`[تجريبي] تمت إضافة ${quantity > 1 ? `${quantity} × ` : ''}«${productName}» إلى السلة`)
     window.setTimeout(() => setQuickViewMessage(null), 3200)
   }, [])
 
   const toggleWishlistDemo = useCallback(() => {
-    setWishlistCount((c) => (c > 0 ? 0 : 1))
+    setHomeFavorite((current) => !current)
+  }, [])
+
+  const toggleFavoriteDemo = useCallback((productId: string) => {
+    setFavoriteIds((current) => current.includes(productId)
+      ? current.filter((id) => id !== productId)
+      : [...current, productId])
   }, [])
 
   const openQuickViewDemo = useCallback((productName: string) => {
@@ -45,8 +55,10 @@ export function DemoUiProvider({ children }: { children: ReactNode }) {
     () => ({
       cartCount,
       wishlistCount,
+      favoriteIds,
       addToCartDemo,
       toggleWishlistDemo,
+      toggleFavoriteDemo,
       quickViewMessage,
       openQuickViewDemo,
       clearQuickView,
@@ -54,8 +66,10 @@ export function DemoUiProvider({ children }: { children: ReactNode }) {
     [
       cartCount,
       wishlistCount,
+      favoriteIds,
       addToCartDemo,
       toggleWishlistDemo,
+      toggleFavoriteDemo,
       quickViewMessage,
       openQuickViewDemo,
       clearQuickView,

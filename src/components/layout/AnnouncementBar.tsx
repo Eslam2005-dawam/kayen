@@ -3,7 +3,7 @@ import { siteConfig } from '../../data/siteConfig'
 export function AnnouncementBar() {
   return (
     <div
-      className="border-b border-beige/70 bg-burgundy text-ivory"
+      className="border-b border-gold/50 bg-burgundy text-ivory"
       role="region"
       aria-label="إعلان"
     >

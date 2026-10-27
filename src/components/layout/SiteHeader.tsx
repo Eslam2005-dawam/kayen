@@ -8,13 +8,15 @@ import {
 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { siteConfig } from '../../data/siteConfig'
+import { publicAsset } from '../../data/publicAsset'
 import { useDemoUi } from '../../context/DemoUiContext'
 
 type Props = {
   heroOffset?: boolean
+  isStore?: boolean
 }
 
-export function SiteHeader({ heroOffset = true }: Props) {
+export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -60,15 +62,18 @@ export function SiteHeader({ heroOffset = true }: Props) {
           </button>
 
           <a
-            href="#"
-            className="group flex shrink-0 flex-col leading-none"
+            href={publicAsset('/')}
+            className="group flex shrink-0 items-center"
             aria-label={`${siteConfig.brandNameAr} — الرئيسية`}
           >
-            <span className="text-lg font-semibold tracking-tight text-burgundy sm:text-xl">
-              {siteConfig.brandNameEn}
-            </span>
-            <span className="text-[11px] text-charcoal/70 sm:text-xs">
-              {siteConfig.brandNameAr}
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-gold/60 bg-white p-0.5 shadow-sm sm:h-14 sm:w-14">
+              <img
+                src={publicAsset('/images/brand/logo.webp')}
+                alt=""
+                width="48"
+                height="48"
+                className="h-full w-full rounded-full object-contain"
+              />
             </span>
           </a>
 
@@ -76,11 +81,12 @@ export function SiteHeader({ heroOffset = true }: Props) {
             className="hidden flex-1 items-center justify-center gap-6 lg:flex"
             aria-label="التنقل الرئيسي"
           >
-            {siteConfig.navLinks.map((link) => (
+            {[...siteConfig.navLinks.slice(0, 1), { label: 'المتجر', href: '#/store' }, ...siteConfig.navLinks.slice(1)].map((link) => (
               <a
                 key={link.href + link.label}
-                href={link.href}
-                className="text-sm font-medium text-charcoal/85 transition hover:text-burgundy"
+                href={isStore && link.href !== '#/store' ? publicAsset(`/${link.href}`) : link.href}
+                aria-current={isStore && link.href === '#/store' ? 'page' : undefined}
+                className={`text-sm font-medium transition hover:text-burgundy ${isStore && link.href === '#/store' ? 'text-burgundy underline decoration-gold decoration-2 underline-offset-8' : 'text-charcoal/85'}`}
               >
                 {link.label}
               </a>
@@ -182,10 +188,10 @@ export function SiteHeader({ heroOffset = true }: Props) {
             </button>
           </div>
           <ul className="flex flex-col gap-1 p-3">
-            {siteConfig.navLinks.map((link) => (
+            {[...siteConfig.navLinks.slice(0, 1), { label: 'المتجر', href: '#/store' }, ...siteConfig.navLinks.slice(1)].map((link) => (
               <li key={link.href + link.label}>
                 <a
-                  href={link.href}
+                  href={isStore && link.href !== '#/store' ? publicAsset(`/${link.href}`) : link.href}
                   className="block rounded-xl px-4 py-3 text-base font-medium text-charcoal hover:bg-beige/60"
                   onClick={closeMenu}
                 >

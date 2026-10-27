@@ -21,7 +21,7 @@ export function ComfortBanner() {
       <div dir="ltr" className="mx-auto flex min-h-[36rem] max-w-6xl items-start px-6 py-14 sm:min-h-[30rem] sm:items-center lg:min-h-[34rem] lg:px-8">
         <Reveal className="w-full max-w-md text-left" direction="left">
           <div dir="rtl">
-            <p className="text-sm font-semibold text-burgundy">راحة في كل تفصيلة</p>
+            <p className="text-sm font-semibold text-gold-deep">راحة في كل تفصيلة</p>
             <h2 id="comfort-heading" className="mt-3 text-balance text-3xl font-semibold leading-tight text-charcoal sm:text-4xl lg:text-5xl">
               نوم هادئ يبدأ من التفاصيل
             </h2>
