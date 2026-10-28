@@ -127,9 +127,10 @@ function StoreProductCard({ product, index }: { product: StoreProduct; index: nu
 export function StorePage({ categoryId }: { categoryId?: StoreCategory }) {
   const category = storeCategories.find((item) => item.id === categoryId)
   const categoryImage = categories.find((item) => item.id === categoryId)
+  const saleOnly = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('sale') === '1'
   const categoryProducts = useMemo(() => categoryId
-    ? demoStoreProducts.filter((product) => product.category === categoryId)
-    : demoStoreProducts, [categoryId])
+    ? demoStoreProducts.filter((product) => product.category === categoryId && (!saleOnly || product.previousPrice))
+    : demoStoreProducts.filter((product) => !saleOnly || product.previousPrice), [categoryId, saleOnly])
   const filterOptions = useMemo(() => buildFilterOptions(categoryProducts, !categoryId), [categoryProducts, categoryId])
   const [search, setSearch] = useState(() => new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('q') ?? '')
   const [sort, setSort] = useState('relevant')
@@ -141,9 +142,9 @@ export function StorePage({ categoryId }: { categoryId?: StoreCategory }) {
   const filterSheetRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    document.title = `${category ? category.label : 'المتجر'} | ${siteConfig.brandNameAr}`
+    document.title = `${category ? category.label : saleOnly ? 'عروض كيان' : 'المتجر'} | ${siteConfig.brandNameAr}`
     return () => { document.title = `${siteConfig.brandNameAr} | ${siteConfig.brandNameEn} — مراتب ومفروشات نوم` }
-  }, [category])
+  }, [category, saleOnly])
 
   useEffect(() => {
     const syncSearchFromUrl = () => {
@@ -207,7 +208,7 @@ export function StorePage({ categoryId }: { categoryId?: StoreCategory }) {
       <div className={`store-intro ${category ? 'store-category-intro' : ''}`} style={{ '--store-intro-image': `url("${categoryImage?.imageDesktop ?? publicAsset('/images/store/mattress-cotton.webp')}")` } as CSSProperties}>
         <div className="store-container">
           <nav aria-label="مسار الصفحة" className="store-breadcrumb"><a href={publicAsset('/')}>الرئيسية</a><span aria-hidden="true">‹</span>{category ? <><a href={publicAsset('/#/store')}>المتجر</a><span aria-hidden="true">‹</span><span aria-current="page">{category.label}</span></> : <span aria-current="page">المتجر</span>}</nav>
-          <div className="store-intro-copy"><h1>{category ? category.label : 'اكتشف مجموعتنا'}</h1><p>{category ? `تصفح منتجات ${category.label} واختر ما يناسبك من التشكيلة.` : 'اختر من المراتب ومستلزمات النوم ما يناسب غرفتك.'}</p></div>
+        <div className="store-intro-copy"><h1>{category ? category.label : saleOnly ? 'عروض كيان' : 'اكتشف مجموعتنا'}</h1><p>{category ? `تصفح منتجات ${category.label} واختر ما يناسبك من التشكيلة.` : saleOnly ? 'تسوق المنتجات المشمولة بالعروض الحالية.' : 'اختر من المراتب ومستلزمات النوم ما يناسب غرفتك.'}</p></div>
         </div>
       </div>
 

@@ -69,13 +69,13 @@ export function HeroCarousel() {
   }
 
   const activeSlide = heroSlides[index]
-  const darkControls = activeSlide.id === 'slide-3' || !activeSlide.textInImage
+  const darkControls = activeSlide.id === 'slide-3' || activeSlide.id === 'slide-sale' || !activeSlide.textInImage
 
   return (
     <section
       ref={visibilityRef}
       id="hero"
-      className="hero-carousel bg-charcoal/5"
+      className={`hero-carousel bg-charcoal/5 ${activeSlide.id === 'slide-sale' ? 'hero-carousel--sale-active' : ''}`}
       aria-roledescription="carousel"
       aria-label="بانر كيان الرئيسي"
       onMouseEnter={() => setHoverPaused(true)}
@@ -97,7 +97,7 @@ export function HeroCarousel() {
               key={slide.id}
               className={`absolute inset-0 transition-opacity duration-700 ease-in-out motion-reduce:transition-none ${
                 active ? 'opacity-100' : 'pointer-events-none opacity-0'
-              } ${slide.textInImage ? 'hero-carousel__baked' : 'hero-carousel__lifestyle'} ${slide.id === 'slide-3' ? 'hero-carousel__campaign' : ''}`}
+              } ${slide.textInImage ? 'hero-carousel__baked' : 'hero-carousel__lifestyle'} ${slide.id === 'slide-3' ? 'hero-carousel__campaign' : ''} ${slide.id === 'slide-sale' ? 'hero-carousel__sale' : ''}`}
               aria-hidden={!active}
             >
               {showPlaceholder ? (
@@ -123,7 +123,10 @@ export function HeroCarousel() {
                 />
               )}
               {slide.textInImage ? (
-                <a href={slide.primaryCta.href} tabIndex={active ? 0 : -1} className={`hero-carousel__baked-link absolute z-10 ${slide.id === 'slide-3' ? 'hero-carousel__campaign-link' : ''}`} aria-label={slide.primaryCta.label} />
+                slide.id === 'slide-sale' ? <>
+                  <a href="#/store?sale=1" tabIndex={active ? 0 : -1} className="hero-carousel__baked-link hero-carousel__full-link absolute z-10 hidden md:block" aria-label="تسوق عروض كيان" />
+                  <a href={slide.primaryCta.href} tabIndex={active ? 0 : -1} className="hero-carousel__baked-link hero-carousel__full-link absolute z-10 md:hidden" aria-label={slide.primaryCta.label} />
+                </> : <a href={slide.primaryCta.href} tabIndex={active ? 0 : -1} className="hero-carousel__baked-link hero-carousel__full-link absolute z-10" aria-label={slide.primaryCta.label} />
               ) : (
                 <div className="hero-carousel__lifestyle-shade pointer-events-none absolute inset-0" aria-hidden />
               )}

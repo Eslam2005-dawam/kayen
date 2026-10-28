@@ -1133,7 +1133,7 @@ html :is(#categories, #best-sellers, #craft, #faq, #main-content) {
 }
 .product-details-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   margin-top: 43px;
 }
@@ -3172,6 +3172,109 @@ html :is(#categories, #best-sellers, #craft, #faq, #main-content) {
   @media (min-width: 768px) {
     .hero-carousel {
       aspect-ratio: 2 / 1;
+    }
+  }
+
+  .hero-carousel__full-link {
+    inset: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+  }
+
+  .announcement-bar {
+    position: relative;
+    display: flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 2.75rem;
+  }
+
+  .announcement-marquee {
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .announcement-marquee__track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    animation: announcement-marquee 24s linear infinite;
+    will-change: transform;
+  }
+
+  .announcement-marquee__track > span {
+    padding-inline: 3rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .announcement-marquee:hover .announcement-marquee__track,
+  .announcement-marquee:focus-within .announcement-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .announcement-close {
+    position: absolute;
+    inset-inline-end: 0.5rem;
+    top: 50%;
+    display: inline-flex;
+    width: 1.75rem;
+    height: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: var(--color-ivory);
+    transform: translateY(-50%);
+    transition: background-color 160ms ease;
+  }
+
+  .announcement-close:hover,
+  .announcement-close:focus-visible {
+    background: rgb(255 255 255 / 0.16);
+  }
+
+  .announcement-close:focus-visible {
+    outline: 2px solid var(--color-gold-light);
+    outline-offset: 2px;
+  }
+
+  @keyframes announcement-marquee {
+    from { transform: translateX(50%); }
+    to { transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-marquee__track {
+      animation: none;
+      transform: none;
+      will-change: auto;
+    }
+  }
+
+  .hero-carousel__sale {
+    background: #f3eee6;
+  }
+
+  @media (min-width: 768px) {
+    .hero-carousel--sale-active {
+      aspect-ratio: 1599 / 900;
+    }
+
+    .hero-carousel__sale .campaign-banner__img--cover {
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-carousel--sale-active {
+      aspect-ratio: 720 / 1088;
+    }
+
+    .hero-carousel__sale {
+      padding-top: 0;
     }
   }
 }

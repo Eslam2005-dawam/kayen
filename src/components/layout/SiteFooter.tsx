@@ -12,8 +12,6 @@ const companyLinks = [
 ]
 
 export function SiteFooter() {
-  const year = new Date().getFullYear()
-
   return (
     <footer className="border-t-2 border-gold/75 bg-burgundy-deep text-ivory/90">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-3">

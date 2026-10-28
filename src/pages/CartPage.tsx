@@ -132,7 +132,7 @@ export function CartPage() {
               })}
 
               {recommendations.length > 0 && <section className="cart-addons" aria-labelledby="cart-addons-title">
-                <div className="cart-addons-heading"><div><h2 id="cart-addons-title">كمل تجهيز سريرك</h2><p>إضافات مقترحة ومحددة مسبقًا — أزل العلامة لاستبعاد أي إضافة.</p></div><span>اختياري</span></div>
+                <div className="cart-addons-heading"><div><h2 id="cart-addons-title">كمل تجهيز سريرك</h2></div><span>اختياري</span></div>
                 <div className="cart-addons-grid">
                   {recommendations.map((product) => {
                     const isSelected = selectedAddOns.some((item) => item.product.id === product.id)
@@ -154,10 +154,10 @@ export function CartPage() {
               <div className="cart-summary-row"><span>المنتجات الأساسية ({formatSar(mainLines.reduce((sum, item) => sum + item.quantity, 0))})</span><strong>{formatSar(mainSubtotal)} ر.س</strong></div>
               {selectedAddOns.length > 0 && <div className="cart-summary-row"><span>الإضافات المختارة ({formatSar(selectedAddOns.reduce((sum, item) => sum + item.quantity, 0))})</span><strong>{formatSar(addOnSubtotal)} ر.س</strong></div>}
               <div className="cart-summary-row"><span>الشحن</span><span>غير محسوب</span></div>
-              <div className="cart-summary-total"><span>الإجمالي التقديري</span><strong>{formatSar(subtotal)} <small>ر.س</small></strong></div>
-              <p className="cart-summary-note">الأسعار والمقاسات المعروضة للتوضيح. تأكد من السعر النهائي والتوفر ورسوم التوصيل مع كيان قبل اعتماد الطلب.</p>
+              <div className="cart-summary-total"><span>الإجمالي</span><strong>{formatSar(subtotal)} <small>ر.س</small></strong></div>
+              {/* <p className="cart-summary-note">الأسعار والمقاسات المعروضة للتوضيح. تأكد من السعر النهائي والتوفر ورسوم التوصيل مع كيان قبل اعتماد الطلب.</p> */}
               <a className="cart-primary-button cart-whatsapp-button" href="#/checkout">إتمام الطلب</a>
-              <p className="cart-summary-footnote">أدخل بيانات التوصيل، ثم راجع رسالة طلبك قبل إرسالها إلى كيان عبر واتساب.</p>
+              {/* <p className="cart-summary-footnote">أدخل بيانات التوصيل، ثم راجع رسالة طلبك قبل إرسالها إلى كيان عبر واتساب.</p> */}
             </aside>
           </div>
         )}

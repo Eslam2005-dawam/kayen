@@ -1,4 +1,4 @@
-import { ArrowRight, MessageCircle, ShieldCheck, Truck } from 'lucide-react'
+import { ArrowRight, MessageCircle, ShieldCheck } from 'lucide-react'
 import { useEffect, useMemo, type FormEvent } from 'react'
 import { useDemoUi } from '../context/DemoUiContext'
 import { demoStoreProducts, priceForSize } from '../data/demoStoreProducts'
@@ -50,7 +50,7 @@ export function CheckoutPage() {
         <nav className="cart-breadcrumb" aria-label="مسار الصفحة">
           <a href={publicAsset('/')}>الرئيسية</a><span aria-hidden="true">›</span><a href="#/cart">سلة التسوق</a><span aria-hidden="true">›</span><span aria-current="page">إتمام الطلب</span>
         </nav>
-        <header className="checkout-heading"><p>خطوة أخيرة لمراجعة طلبك</p><h1>بيانات التوصيل</h1><span>الطلب هنا استفسار مبدئي؛ كيان يؤكد التفاصيل قبل اعتماد أي طلب.</span></header>
+        <header className="checkout-heading"><h1>بيانات التوصيل</h1></header>
 
         {lines.length === 0 ? (
           <section className="cart-empty"><span className="cart-empty-icon"><MessageCircle size={26} aria-hidden="true" /></span><h2>سلتك فارغة</h2><p>أضف المنتجات التي ترغب بها أولًا، ثم أكمل بيانات التوصيل.</p><a href="#/store" className="cart-primary-button">تصفح المتجر <ArrowRight size={17} /></a></section>
@@ -58,7 +58,7 @@ export function CheckoutPage() {
           <div className="checkout-layout">
             <form className="checkout-form" onSubmit={sendInquiry}>
               <section className="checkout-fields" aria-labelledby="checkout-contact-title">
-                <div className="checkout-section-title"><span>١</span><div><h2 id="checkout-contact-title">معلومات التواصل</h2><p>سنضعها في رسالة واتساب التي تراجعها قبل إرسالها.</p></div></div>
+                <div className="checkout-section-title"><span>١</span><div><h2 id="checkout-contact-title">معلومات التواصل</h2></div></div>
                 <div className="checkout-field-grid">
                   <label className="checkout-field"><span>الاسم الكامل <b>*</b></span><input name="name" autoComplete="name" required maxLength={80} placeholder="الاسم الذي نتواصل معه" /></label>
                   <label className="checkout-field"><span>رقم الجوال <b>*</b></span><input name="phone" type="tel" autoComplete="tel" inputMode="tel" dir="ltr" required maxLength={24} placeholder="05xxxxxxxx أو رمز الدولة" /></label>
@@ -79,10 +79,10 @@ export function CheckoutPage() {
             <aside className="checkout-summary" aria-labelledby="checkout-summary-title">
               <h2 id="checkout-summary-title">ملخص السلة</h2>
               <div className="checkout-lines">{lines.map(({ product, size, quantity, unitPrice, total, isSuggested }) => <article className="checkout-line" key={`${product.id}:${size}`}><img src={product.image} alt="" width="64" height="64" /><div><strong>{product.name}{isSuggested && <small>إضافة اختيارية</small>}</strong><span dir="rtl">{size} · الكمية {formatSar(quantity)} × {formatSar(unitPrice)} ر.س</span></div><b>{formatSar(total)} <small>ر.س</small></b></article>)}</div>
-              <div className="checkout-summary-row"><span>المجموع الفرعي</span><strong>{formatSar(subtotal)} ر.س</strong></div>
-              <div className="checkout-summary-row"><span><Truck size={16} aria-hidden="true" /> التوصيل</span><span>يؤكد مع كيان</span></div>
-              <div className="checkout-summary-total"><span>الإجمالي التقديري</span><strong>{formatSar(subtotal)} <small>ر.س</small></strong></div>
-              <p className="checkout-estimate-note">أسعار المعاينة تقديرية وغير معتمدة من كيان. السعر النهائي والتوفر والتوصيل والدفع يُؤكَّدون مع كيان قبل اعتماد الطلب.</p>
+              <div className="checkout-summary-row"><span>المجموع </span><strong>{formatSar(subtotal)} ر.س</strong></div>
+              {/* <div className="checkout-summary-row"><span><Truck size={16} aria-hidden="true" /> التوصيل</span><span></span></div> */}
+              <div className="checkout-summary-total"><span>الإجمالي</span><strong>{formatSar(subtotal)} <small>ر.س</small></strong></div>
+              {/* <p className="checkout-estimate-note">أسعار المعاينة تقديرية وغير معتمدة من كيان. السعر النهائي والتوفر والتوصيل والدفع يُؤكَّدون مع كيان قبل اعتماد الطلب.</p> */}
               <a href="#/cart" className="checkout-edit-link">العودة لتعديل السلة</a>
             </aside>
           </div>

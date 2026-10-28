@@ -27,7 +27,7 @@ export const heroSlides: HeroSlide[] = [
     id: 'slide-1',
     headline: 'راحة تبدأ من اختيارك',
     subtitle: 'مراتب ومفروشات نوم مصممة لتجربة هادئة — اكتشف تشكيلة كيان بأسلوب يناسب غرفتك.',
-    primaryCta: { label: 'اكتشف المراتب', href: '#categories' },
+    primaryCta: { label: 'اكتشف المراتب', href: '#/categories/mattresses' },
     secondaryCta: { label: 'الأسئلة الشائعة', href: '#faq' },
     image: {
       desktop: imageManifest.hero.slide1.src,
@@ -46,7 +46,7 @@ export const heroSlides: HeroSlide[] = [
     id: 'slide-2',
     headline: 'كل تفاصيل راحتك في مكان واحد',
     subtitle: 'من المرتبة إلى المخدة — مكونات نوم متناسقة بلمسة عصرية وهدوء بصري.',
-    primaryCta: { label: 'تسوق حسب القسم', href: '#categories' },
+    primaryCta: { label: 'تسوق حسب القسم', href: '#/store' },
     secondaryCta: { label: 'الأكثر مبيعًا', href: '#best-sellers' },
     image: {
       desktop: imageManifest.hero.slide2.desktop,
@@ -64,7 +64,7 @@ export const heroSlides: HeroSlide[] = [
     id: 'slide-3',
     headline: 'كل تفاصيل راحتك في مكان واحد',
     subtitle: 'مراتب ومخدات ومفارش تكمل تجربة نومك.',
-    primaryCta: { label: 'اكتشف منتجات كيان', href: '#categories' },
+    primaryCta: { label: 'اكتشف منتجات كيان', href: '#/categories/duvets' },
     secondaryCta: { label: 'الأكثر مبيعًا', href: '#best-sellers' },
     image: {
       desktop: imageManifest.hero.slide3.desktop,
@@ -76,6 +76,24 @@ export const heroSlides: HeroSlide[] = [
       alt: imageManifest.hero.slide3.alt,
     },
     imageReady: true,
+    textInImage: true,
+  },
+  {
+    id: 'slide-sale',
+    headline: 'عروض كيان',
+    subtitle: 'خصومات على منتجات مختارة من كيان.',
+    primaryCta: { label: 'تسوق العروض', href: '#/store?sale=1' },
+    secondaryCta: { label: 'تسوق العروض', href: '#/store?sale=1' },
+    image: {
+      desktop: imageManifest.hero.sale.desktop,
+      mobile: imageManifest.hero.sale.mobile,
+      width: imageManifest.hero.sale.widthDesktop,
+      height: imageManifest.hero.sale.heightDesktop,
+      mobileWidth: imageManifest.hero.sale.widthMobile,
+      mobileHeight: imageManifest.hero.sale.heightMobile,
+      alt: imageManifest.hero.sale.alt,
+    },
+    imageReady: imageManifest.hero.sale.ready,
     textInImage: true,
   },
 ]

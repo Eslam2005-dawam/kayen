@@ -31,6 +31,16 @@ export const imageManifest = {
       alt: 'كيان للمراتب: كل تفاصيل راحتك في مكان واحد',
       ready: true,
     },
+    sale: {
+      desktop: publicAsset('/images/hero/Hero-sale-pc.webp'),
+      mobile: publicAsset('/images/hero/Hero-sale-mobial.webp'),
+      widthDesktop: 1599,
+      heightDesktop: 900,
+      widthMobile: 720,
+      heightMobile: 1088,
+      alt: 'عرض نهاية الموسم من كيان — خصومات على منتجات مختارة',
+      ready: true,
+    },
   },
   categoriesReference: publicAsset('/images/categories-reference.webp'),
   categories: {

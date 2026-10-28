@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { siteConfig } from '../../data/siteConfig'
+import { categories } from '../../data/categories'
 import { publicAsset } from '../../data/publicAsset'
 import { useDemoUi } from '../../context/DemoUiContext'
 
@@ -227,7 +228,7 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
           onClick={closeMenu}
         />
         <nav
-          className={`absolute top-0 bottom-0 start-0 w-[min(100%,20rem)] border-e border-beige/80 bg-ivory shadow-xl transition-transform duration-300 ease-out ${
+          className={`absolute top-0 bottom-0 start-0 w-[min(100%,20rem)] overflow-y-auto overscroll-contain border-e border-beige/80 bg-ivory shadow-xl transition-transform duration-300 ease-out ${
             menuOpen ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full'
           }`}
           aria-label="قائمة الجوال"
@@ -244,7 +245,7 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
             </button>
           </div>
           <ul className="flex flex-col gap-1 p-3">
-            {[...siteConfig.navLinks.slice(0, 1), { label: 'المتجر', href: '#/store' }, ...siteConfig.navLinks.slice(1)].map((link) => (
+            {[...siteConfig.navLinks.slice(0, 1), { label: 'المتجر', href: '#/store' }, ...siteConfig.navLinks.slice(1).filter((link) => link.href !== '#categories')].map((link) => (
               <li key={link.href + link.label}>
                 <a
                   href={isStore && link.href !== '#/store' ? publicAsset(`/${link.href}`) : link.href}
@@ -252,6 +253,25 @@ export function SiteHeader({ heroOffset = true, isStore = false }: Props) {
                   onClick={closeMenu}
                 >
                   {link.label}
+                </a>
+              </li>
+            ))}
+            {categories.map((category) => (
+              <li key={category.id}>
+                <a
+                  href={category.href}
+                  className="flex min-h-[4.5rem] items-center justify-between gap-4 border-b border-beige/60 px-3 py-2 text-base font-medium text-charcoal transition hover:bg-beige/40"
+                  onClick={closeMenu}
+                >
+                  <span>{category.name}</span>
+                  <img
+                    src={category.imageMobile}
+                    alt=""
+                    width={48}
+                    height={48}
+                    loading="lazy"
+                    className="h-12 w-12 shrink-0 rounded-full object-cover"
+                  />
                 </a>
               </li>
             ))}

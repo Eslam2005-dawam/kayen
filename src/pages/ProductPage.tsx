@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type TouchEvent } from 'react'
-import { ArrowLeft, ChevronLeft, ChevronRight, Heart, Maximize2, MessageCircle, Minus, Plus, ShoppingBag, X } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Heart, Maximize2, Minus, Plus, ShoppingBag, X } from 'lucide-react'
 import { useDemoUi } from '../context/DemoUiContext'
 import { demoStoreProducts, priceForSize, storeCategories, type StoreProduct } from '../data/demoStoreProducts'
 import { productGalleryImages } from '../data/productImages'
@@ -13,7 +13,7 @@ function RelatedProduct({ product }: { product: StoreProduct }) {
   return (
     <a className="product-related-card" href={`#/products/${product.id}`}>
       <div className="product-related-image"><img src={product.image} alt={product.name} loading="lazy" width="320" height="260" /></div>
-      <div className="product-related-copy"><strong>{product.name}</strong><span>{formatSar(product.price)} ر.س <small>توضيحي</small></span></div>
+      <div className="product-related-copy"><strong>{product.name}</strong><span>{formatSar(product.price)} ر.س</span></div>
       <ArrowLeft size={17} aria-hidden="true" />
     </a>
   )
@@ -58,8 +58,13 @@ export function ProductPage({ productId }: { productId: string }) {
   }
 
   const category = storeCategories.find((item) => item.id === product.category)
+  const productSpecs = [
+    { label: 'القسم', value: category?.label },
+    { label: 'المقاسات المتاحة (سم)', value: product.sizes.join('، ') },
+    { label: 'الخامة', value: product.material },
+    { label: 'اللون الظاهر', value: product.color },
+  ].filter((spec): spec is { label: string; value: string } => Boolean(spec.value))
   const favorite = favoriteIds.includes(product.id)
-  const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(`مرحبًا، أريد الاستفسار عن ${product.name}`)}`
   const nextImage = () => { setImageError(false); setImageIndex((index) => (index + 1) % gallery.length) }
   const previousImage = () => { setImageError(false); setImageIndex((index) => (index - 1 + gallery.length) % gallery.length) }
   const handleGalleryTouchStart = (event: TouchEvent<HTMLDivElement>) => { touchStartX.current = event.changedTouches[0]?.clientX ?? null }
@@ -109,14 +114,14 @@ export function ProductPage({ productId }: { productId: string }) {
             <fieldset className="product-size-field"><legend>اختر المقاس <span>سم</span></legend><div className="product-size-options">{product.sizes.map((option) => <button key={option} type="button" aria-pressed={size === option} className={size === option ? 'is-selected' : ''} onClick={() => setSize(option)}>{option}</button>)}</div></fieldset>
             <div className="product-order-row"><div><span className="product-field-label">الكمية</span><div className="product-quantity"><button type="button" aria-label="تقليل الكمية" disabled={quantity === 1} onClick={() => setQuantity((current) => current - 1)}><Minus size={16} /></button><output aria-live="polite">{quantity}</output><button type="button" aria-label="زيادة الكمية" disabled={quantity === 10} onClick={() => setQuantity((current) => current + 1)}><Plus size={16} /></button></div></div><div className="product-estimate"><span className="product-field-label">الإجمالي </span><strong>{formatSar(priceForSize(product, size) * quantity)} ر.س</strong></div></div>
             <div className="product-purchase-actions"><button type="button" className="product-add-button" disabled={!product.inStock} onClick={() => addToCart(product.id, size, quantity)}><ShoppingBag size={20} aria-hidden="true" />{product.inStock ? 'أضف للسلة' : 'غير متوفر'}</button><button type="button" className={`product-heart-button ${favorite ? 'is-active' : ''}`} onClick={() => toggleFavoriteDemo(product.id)} aria-pressed={favorite} aria-label={favorite ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة'}><Heart size={20} fill={favorite ? 'currentColor' : 'none'} /></button></div>
-            <a className="product-inquiry-link" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><MessageCircle size={18} aria-hidden="true" />اسأل كيان عن المقاس والتوفر</a>
+            {/* <a className="product-inquiry-link" href={whatsappUrl} target="_blank" rel="noopener noreferrer"><MessageCircle size={18} aria-hidden="true" />اسأل كيان عن المقاس والتوفر</a> */}
             <p className="product-help-note">قبل الاختيار، قِس مساحة السرير وطابقها مع المقاس المطلوب. تأكد من تفاصيل الطلب مع كيان قبل الشراء.</p>
           </section>
         </div>
 
         <div className="product-details-grid">
-          <section className="product-details-panel" aria-labelledby="product-description-title"><h2 id="product-description-title">تفاصيل المنتج</h2><p>{product.description}</p><dl><div><dt>القسم</dt><dd>{category?.label}</dd></div><div><dt>الخامة المذكورة في العرض</dt><dd>{product.material}</dd></div><div><dt>اللون الظاهر</dt><dd>{product.color}</dd></div></dl><p className="product-detail-caveat">الصور والخيارات المعروضة للتوضيح؛ يُعتمد الوصف النهائي مع بيانات الكتالوج الرسمية.</p></section>
-          <section className="product-details-panel" aria-labelledby="product-specs-title"><h2 id="product-specs-title">مواصفات المنتج</h2>{reference?.details.length ? <><ul>{reference.details.map((detail) => <li key={detail}>{detail}</li>)}</ul></> : <p>لم تُنشر تفاصيل موثقة كافية لهذا المنتج في المصدر المتاح. للاستفسار عن المواصفات الحالية، تواصل مع كيان.</p>}</section>
+          {/* <section className="product-details-panel" aria-labelledby="product-description-title"><h2 id="product-description-title">تفاصيل المنتج</h2><p>{product.description}</p></section> */}
+          <section className="product-details-panel" aria-labelledby="product-specs-title"><h2 id="product-specs-title">مواصفات المنتج</h2><dl>{productSpecs.map((spec) => <div key={spec.label}><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}</dl>{reference?.details.length ? <ul>{reference.details.map((detail) => <li key={detail}>{detail}</li>)}</ul> : null}</section>
         </div>
 
         {related.length > 0 && <section className="product-related" aria-labelledby="related-title"><div className="product-related-heading"><h2 id="related-title">منتجات أخرى من {category?.label}</h2><a href={`#/categories/${product.category}`}>عرض القسم <ArrowLeft size={16} aria-hidden="true" /></a></div><div className="product-related-grid">{related.map((item) => <RelatedProduct key={item.id} product={item} />)}</div></section>}
